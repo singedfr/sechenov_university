@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+(СУ)*.csv
+deficiency_anemia.csv
+*.csv
