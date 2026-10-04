@@ -9,77 +9,245 @@
 <body>
     <div class="container container-wide">
         <header class="header">
-            <a href="index.html" class="back-link">← Назад</a>
+            <a href="index.html" class="back-link">← На главную</a>
             <img src="Sechenov Logo color horizontal.png" alt="Сеченовский Университет" class="logo-img">
         </header>
 
         <h1>Анализ для врача</h1>
-        <p class="subtitle">Введите лабораторные показатели пациента</p>
+        <p class="subtitle">
+            Введите лабораторные показатели пациента.
+            <strong>Чем больше полей заполнено — тем точнее диагноз.</strong>
+            Незаполненные поля не сломают сервис: модель честно укажет, чего не хватает.
+        </p>
 
         <form id="doctorForm">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="sex">Пол *</label>
-                    <select id="sex" required>
-                        <option value="">— выберите —</option>
-                        <option value="F">Женский</option>
-                        <option value="M">Мужской</option>
-                    </select>
-                </div>
 
-                <div class="form-group">
-                    <label for="age">Возраст (лет) *</label>
-                    <input type="number" id="age" required min="1" max="120" placeholder="34">
+            <!-- ===== ДЕМОГРАФИЯ ===== -->
+            <details open class="form-section">
+                <summary>Демография <span class="required-note">* обязательные поля</span></summary>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="patient_id">ID пациента *</label>
+                        <input type="text" id="patient_id" name="patient_id" required placeholder="P001">
+                    </div>
+                    <div class="form-group">
+                        <label for="sex">Пол *</label>
+                        <select id="sex" name="sex" required>
+                            <option value="">— выберите —</option>
+                            <option value="female">Женский</option>
+                            <option value="male">Мужской</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="age_years">Возраст (лет) *</label>
+                        <input type="number" id="age_years" name="age_years" required min="1" max="120" step="1" placeholder="34">
+                    </div>
                 </div>
+            </details>
 
-                <div class="form-group">
-                    <label for="hemoglobin">Гемоглобин (г/л) *</label>
-                    <input type="number" id="hemoglobin" required step="0.1" placeholder="105">
+            <!-- ===== ОБЩИЙ АНАЛИЗ КРОВИ ===== -->
+            <details open class="form-section">
+                <summary>Общий анализ крови</summary>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="hemoglobin" title="Норма: жен 120–160, муж 130–170 г/л">Гемоглобин, г/л *</label>
+                        <input type="number" id="hemoglobin" name="hemoglobin" required step="0.1" placeholder="105">
+                    </div>
+                    <div class="form-group">
+                        <label for="hematocrit" title="Норма: 36–50%">Гематокрит, %</label>
+                        <input type="number" id="hematocrit" name="hematocrit" step="0.1" placeholder="35">
+                    </div>
+                    <div class="form-group">
+                        <label for="RBC" title="Эритроциты">RBC, 10¹²/л</label>
+                        <input type="number" id="RBC" name="RBC" step="0.01" placeholder="4.2">
+                    </div>
+                    <div class="form-group">
+                        <label for="platelets">Тромбоциты, 10⁹/л</label>
+                        <input type="number" id="platelets" name="platelets" step="1" placeholder="250">
+                    </div>
+                    <div class="form-group">
+                        <label for="WBC">WBC, 10⁹/л</label>
+                        <input type="number" id="WBC" name="WBC" step="0.1" placeholder="6.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="reticulocytes">Ретикулоциты, %</label>
+                        <input type="number" id="reticulocytes" name="reticulocytes" step="0.1" placeholder="1.2">
+                    </div>
+                    <div class="form-group">
+                        <label for="MCV" title="Средний объём эритроцита. Норма: 80–100 фл">MCV, фл</label>
+                        <input type="number" id="MCV" name="MCV" step="0.1" placeholder="72">
+                    </div>
+                    <div class="form-group">
+                        <label for="MCH" title="Среднее содержание Hb. Норма: 27–34 пг">MCH, пг</label>
+                        <input type="number" id="MCH" name="MCH" step="0.1" placeholder="22">
+                    </div>
+                    <div class="form-group">
+                        <label for="MCHC" title="Средняя концентрация Hb. Норма: 320–360 г/л">MCHC, г/л</label>
+                        <input type="number" id="MCHC" name="MCHC" step="0.1" placeholder="300">
+                    </div>
+                    <div class="form-group">
+                        <label for="RDW" title="Норма: 11.5–14.5%">RDW, %</label>
+                        <input type="number" id="RDW" name="RDW" step="0.1" placeholder="17">
+                    </div>
                 </div>
+            </details>
 
-                <div class="form-group">
-                    <label for="mcv">MCV (фл)</label>
-                    <input type="number" id="mcv" step="0.1" placeholder="72">
+            <!-- ===== ОБМЕН ЖЕЛЕЗА ===== -->
+            <details class="form-section">
+                <summary>Обмен железа</summary>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="ferritin" title="Норма: 15–150 нг/мл">Ферритин, нг/мл</label>
+                        <input type="number" id="ferritin" name="ferritin" step="0.1" placeholder="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="serum_iron">Сывороточное железо, мкмоль/л</label>
+                        <input type="number" id="serum_iron" name="serum_iron" step="0.1" placeholder="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="transferrin">Трансферрин, г/л</label>
+                        <input type="number" id="transferrin" name="transferrin" step="0.01" placeholder="2.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="TIBC">ОЖСС (TIBC), мкмоль/л</label>
+                        <input type="number" id="TIBC" name="TIBC" step="0.1" placeholder="70">
+                    </div>
+                    <div class="form-group">
+                        <label for="UIBC">ЛЖСС (UIBC), мкмоль/л</label>
+                        <input type="number" id="UIBC" name="UIBC" step="0.1" placeholder="65">
+                    </div>
+                    <div class="form-group">
+                        <label for="TSAT" title="Норма: 20–50%">TSAT, %</label>
+                        <input type="number" id="TSAT" name="TSAT" step="0.1" placeholder="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="sTfR">sTfR, мг/л</label>
+                        <input type="number" id="sTfR" name="sTfR" step="0.1" placeholder="5.2">
+                    </div>
+                    <div class="form-group">
+                        <label for="Ret_He">Ret-He, пг</label>
+                        <input type="number" id="Ret_He" name="Ret_He" step="0.1" placeholder="28">
+                    </div>
                 </div>
+            </details>
 
-                <div class="form-group">
-                    <label for="ferritin">Ферритин (нг/мл)</label>
-                    <input type="number" id="ferritin" step="0.1" placeholder="8">
+            <!-- ===== ВИТАМИНЫ ===== -->
+            <details class="form-section">
+                <summary>Витамины и метаболиты</summary>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="vitamin_B12" title="Общий B12. Норма: 200–900 пг/мл">Витамин B12 (общий), пг/мл</label>
+                        <input type="number" id="vitamin_B12" name="vitamin_B12" step="0.1" placeholder="350">
+                    </div>
+                    <div class="form-group">
+                        <label for="active_B12">Активный B12 (голотранскобаламин), пмоль/л</label>
+                        <input type="number" id="active_B12" name="active_B12" step="0.1" placeholder="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="MMA">Метилмалоновая кислота, нмоль/л</label>
+                        <input type="number" id="MMA" name="MMA" step="0.01" placeholder="0.15">
+                    </div>
+                    <div class="form-group">
+                        <label for="homocysteine">Гомоцистеин, мкмоль/л</label>
+                        <input type="number" id="homocysteine" name="homocysteine" step="0.1" placeholder="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="folate" title="Норма: 3–17 нг/мл">Фолаты, нг/мл</label>
+                        <input type="number" id="folate" name="folate" step="0.1" placeholder="5.0">
+                    </div>
+                    <div class="form-group">
+                        <label for="vitamin_B6">Витамин B6 (PLP), нг/мл</label>
+                        <input type="number" id="vitamin_B6" name="vitamin_B6" step="0.1" placeholder="20">
+                    </div>
                 </div>
+            </details>
 
-                <div class="form-group">
-                    <label for="stfr">sTfR (мг/л)</label>
-                    <input type="number" id="stfr" step="0.1" placeholder="5.2">
+            <!-- ===== МИКРОЭЛЕМЕНТЫ ===== -->
+            <details class="form-section">
+                <summary>Микроэлементы</summary>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="copper">Медь сывороточная, мкмоль/л</label>
+                        <input type="number" id="copper" name="copper" step="0.1" placeholder="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="ceruloplasmin">Церулоплазмин, г/л</label>
+                        <input type="number" id="ceruloplasmin" name="ceruloplasmin" step="0.01" placeholder="0.25">
+                    </div>
                 </div>
+            </details>
 
-                <div class="form-group">
-                    <label for="tsat">TSAT (%)</label>
-                    <input type="number" id="tsat" step="0.1" placeholder="12">
+            <!-- ===== ВОСПАЛЕНИЕ И СОМАТИКА ===== -->
+            <details class="form-section">
+                <summary>Воспаление и соматический профиль</summary>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="CRP" title="С-реактивный белок. Норма: <5 мг/л">СРБ (CRP), мг/л</label>
+                        <input type="number" id="CRP" name="CRP" step="0.1" placeholder="2.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="ESR" title="СОЭ. Норма: жен <20, муж <15 мм/ч">СОЭ (ESR), мм/ч</label>
+                        <input type="number" id="ESR" name="ESR" step="1" placeholder="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="creatinine">Креатинин, мкмоль/л</label>
+                        <input type="number" id="creatinine" name="creatinine" step="1" placeholder="80">
+                    </div>
+                    <div class="form-group">
+                        <label for="eGFR">рСКФ (eGFR), мл/мин/1.73м²</label>
+                        <input type="number" id="eGFR" name="eGFR" step="1" placeholder="90">
+                    </div>
+                    <div class="form-group">
+                        <label for="TSH">ТТГ (TSH), мМЕ/л</label>
+                        <input type="number" id="TSH" name="TSH" step="0.01" placeholder="2.0">
+                    </div>
+                    <div class="form-group">
+                        <label for="albumin">Альбумин, г/л</label>
+                        <input type="number" id="albumin" name="albumin" step="0.1" placeholder="42">
+                    </div>
                 </div>
+            </details>
 
-                <div class="form-group">
-                    <label for="b12">Витамин B12 (пг/мл)</label>
-                    <input type="number" id="b12" step="0.1" placeholder="350">
+            <!-- ===== ГЕМОЛИЗ ===== -->
+            <details class="form-section">
+                <summary>Маркеры гемолиза и тканевого распада</summary>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="LDH">ЛДГ (LDH), Ед/л</label>
+                        <input type="number" id="LDH" name="LDH" step="1" placeholder="220">
+                    </div>
+                    <div class="form-group">
+                        <label for="indirect_bilirubin">Непрямой билирубин, мкмоль/л</label>
+                        <input type="number" id="indirect_bilirubin" name="indirect_bilirubin" step="0.1" placeholder="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="haptoglobin">Гаптоглобин, г/л</label>
+                        <input type="number" id="haptoglobin" name="haptoglobin" step="0.01" placeholder="1.0">
+                    </div>
                 </div>
+            </details>
 
-                <div class="form-group">
-                    <label for="crp">СРБ (мг/л)</label>
-                    <input type="number" id="crp" step="0.1" placeholder="2.1">
-                </div>
-
-                <div class="form-group">
-                    <label for="folate">Фолаты (нг/мл)</label>
-                    <input type="number" id="folate" step="0.1" placeholder="5.0">
-                </div>
+            <!-- ===== КНОПКИ ===== -->
+            <div class="form-actions">
+                <button type="button" id="loadExample" class="btn btn-secondary">
+                    📋 Загрузить пример
+                </button>
+                <button type="submit" id="submitBtn" class="btn btn-doctor">
+                    🔍 Анализировать
+                </button>
+                <button type="reset" class="btn btn-secondary">
+                    ✖ Очистить
+                </button>
             </div>
-
-            <button type="submit" class="btn btn-doctor">Анализировать</button>
         </form>
 
+        <div id="loading" class="loading hidden">⏳ Идёт анализ…</div>
+        <div id="error" class="error hidden"></div>
         <div id="result" class="result hidden"></div>
 
         <p class="disclaimer">
             Результаты носят информационный характер и требуют верификации врачом.
+            Сервис не заменяет консультацию специалиста.
         </p>
     </div>
 

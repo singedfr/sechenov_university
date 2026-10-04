@@ -351,6 +351,9 @@ h3 {
 }
 
 @media (max-width: 600px) {
+    .buttons {
+        flex-direction: column;
+    }
     body {
         padding: var(--space-sm);
     }

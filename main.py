@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException
+﻿from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from schemas import PatientData, PredictionResponse, ClassProbability, FeatureImpact
 from recommendations import generate_recommendations
 from ml_loader import loader
@@ -8,6 +9,13 @@ app = FastAPI(
     title="Anemia Screening Service",
     description="ИИ-сервис для скрининга дефицитных состояний",
     version="0.1.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -22,7 +30,6 @@ def root():
 
 @app.get("/health")
 def health():
-    """Расширенная проверка состояния сервиса."""
     return {
         "status": "ok" if loader.loaded else "degraded",
         "model_loaded": loader.loaded,
@@ -35,13 +42,12 @@ def health():
 def predict(data: PatientData) -> PredictionResponse:
     try:
         data_dict = data.model_dump()
-
         result = loader.predict(data_dict)
 
         if not result.get("ok"):
             raise HTTPException(
                 status_code=503,
-                detail=f"ML-модель недоступна: {result.get('error', 'неизвестная ошибка')}",
+                detail=f"ML model unavailable: {result.get('error', 'unknown error')}",
             )
 
         anemia_classes = {
@@ -57,21 +63,23 @@ def predict(data: PatientData) -> PredictionResponse:
             anemia_present=anemia_present,
             data=data,
         )
-        missing = result.get("missing_feature", [])
+
+        missing = result.get("missing_features", [])
         if missing:
             critical = [
                 f for f in missing
                 if f in {
                     "hemoglobin", "MCV", "MCH", "MCHC", "RDW",
-                    "ferritin", "serum_iron", "tsat", "stfr",
-                    "vitamin_b12", "folate", "homocysteine", "mma",
-                    "crp", "esr",
+                    "ferritin", "serum_iron", "TSAT", "sTfR",
+                    "vitamin_B12", "active_B12", "folate", "homocysteine", "MMA",
+                    "CRP", "ESR",
                 }
             ]
             if critical:
                 tests_to_add = ", ".join(critical[:10])
-                rec_doctor += f"\n\n⚠️ Не хватает анализов для точного диагноза: {tests_to_add}. Рекомендуется досдать."
-                rec_patient += "\n\nЧасть анализов не сдана — врач может назначить дополнительные исследования."
+                rec_doctor += f"\n\n[!] Missing tests for accurate diagnosis: {tests_to_add}. Recommended to add."
+                rec_patient += "\n\nSome tests are missing - the doctor may order additional ones."
+
         return PredictionResponse(
             patient_id=data.patient_id,
             anemia_present=anemia_present,
@@ -92,7 +100,7 @@ def predict(data: PatientData) -> PredictionResponse:
             ],
             recommendation_for_doctor=rec_doctor,
             recommendation_for_patient=rec_patient,
-            missing_features=result.get("missing_features", [])
+            missing_features=result.get("missing_features", []),
             data_completeness=result.get("data_completeness", 1.0),
         )
 
@@ -101,5 +109,5 @@ def predict(data: PatientData) -> PredictionResponse:
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Внутренняя ошибка сервиса: {str(e)}",
+            detail=f"Internal service error: {str(e)}",
         )
