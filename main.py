@@ -1,11 +1,7 @@
 from fastapi import FastAPI, HTTPException
-from schemas import (
-    PatientData,
-    PredictionResponse,
-    ClassProbability,
-    FeatureImpact,
-)
+from schemas import PatientData, PredictionResponse, ClassProbability, FeatureImpact
 from recommendations import generate_recommendations
+from ml_loader import loader
 
 
 app = FastAPI(
@@ -15,66 +11,95 @@ app = FastAPI(
 )
 
 
-def mock_predict(data: PatientData) -> dict:
-    hb = data.hemoglobin if data.hemoglobin is not None else 140.0
-    threshold = 120.0 if data.sex == "female" else 130.0
-    is_anemia = hb < threshold
-
-    if is_anemia:
-        class_pred = "iron_deficiency_anemia"
-        class_prob = 0.85
-    else:
-        class_pred = "no_anemia_no_deficiency"
-        class_prob = 0.90
-
+@app.get("/")
+def root():
     return {
-        "anemia_present": is_anemia,
-        "anemia_confidence": 0.92,
-        "class_prediction": class_pred,
-        "class_probability": class_prob,
-        "top_3_classes": [
-            (class_pred, class_prob),
-            ("mixed_deficiency", 0.08),
-            ("inflammation_anemia", 0.04),
-        ],
-        "top_3_features": [
-            ("hemoglobin", data.hemoglobin, -0.45),
-            ("ferritin", data.ferritin, -0.30),
-            ("mcv", data.mcv, -0.20),
-        ],
+        "status": "ok",
+        "message": "Anemia service is running",
+        "model_loaded": loader.loaded,
     }
 
 
-@app.get("/")
-def root():
-    return {"status": "ok", "message": "Anemia service is running"}
+@app.get("/health")
+def health():
+    """Расширенная проверка состояния сервиса."""
+    return {
+        "status": "ok" if loader.loaded else "degraded",
+        "model_loaded": loader.loaded,
+        "model_error": loader.load_error,
+        "features_count": len(loader.feature_names) if loader.feature_names else 0,
+    }
 
 
 @app.post("/predict", response_model=PredictionResponse)
 def predict(data: PatientData) -> PredictionResponse:
     try:
-        result = mock_predict(data)
+        data_dict = data.model_dump()
+
+        result = loader.predict(data_dict)
+
+        if not result.get("ok"):
+            raise HTTPException(
+                status_code=503,
+                detail=f"ML-модель недоступна: {result.get('error', 'неизвестная ошибка')}",
+            )
+
+        anemia_classes = {
+            "iron_deficiency_anemia", "B12_deficiency_anemia",
+            "folate_deficiency_anemia", "inflammation_anemia",
+            "mixed_deficiency", "anemia_other",
+        }
+        class_pred = result["class_prediction"]
+        anemia_present = class_pred in anemia_classes
+
         rec_doctor, rec_patient = generate_recommendations(
-            class_name=result["class_prediction"],
-            anemia_present=result["anemia_present"],
+            class_name=class_pred,
+            anemia_present=anemia_present,
             data=data,
         )
+        missing = result.get("missing_feature", [])
+        if missing:
+            critical = [
+                f for f in missing
+                if f in {
+                    "hemoglobin", "MCV", "MCH", "MCHC", "RDW",
+                    "ferritin", "serum_iron", "tsat", "stfr",
+                    "vitamin_b12", "folate", "homocysteine", "mma",
+                    "crp", "esr",
+                }
+            ]
+            if critical:
+                tests_to_add = ", ".join(critical[:10])
+                rec_doctor += f"\n\n⚠️ Не хватает анализов для точного диагноза: {tests_to_add}. Рекомендуется досдать."
+                rec_patient += "\n\nЧасть анализов не сдана — врач может назначить дополнительные исследования."
         return PredictionResponse(
             patient_id=data.patient_id,
-            anemia_present=result["anemia_present"],
-            anemia_confidence=result["anemia_confidence"],
-            class_prediction=result["class_prediction"],
+            anemia_present=anemia_present,
+            anemia_confidence=result["class_probability"],
+            class_prediction=class_pred,
             class_probability=result["class_probability"],
             top_3_classes=[
-                ClassProbability(name=c, probability=p)
-                for c, p in result["top_3_classes"]
+                ClassProbability(name=c["name"], probability=c["probability"])
+                for c in result["top_3_classes"]
             ],
             top_3_features=[
-                FeatureImpact(feature=f, value=v, impact=i)
-                for f, v, i in result["top_3_features"]
+                FeatureImpact(
+                    feature=f["feature"],
+                    value=f["value"],
+                    impact=f["impact"],
+                )
+                for f in result["top_3_features"]
             ],
             recommendation_for_doctor=rec_doctor,
             recommendation_for_patient=rec_patient,
+            missing_features=result.get("missing_features", [])
+            data_completeness=result.get("data_completeness", 1.0),
         )
+
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Внутренняя ошибка сервиса: {str(e)}",
+        )

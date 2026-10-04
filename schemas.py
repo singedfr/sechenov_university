@@ -7,7 +7,12 @@ class PatientData(BaseModel):
     age_years: Optional[float] = None
     sex: Optional[str] = None
     hemoglobin: Optional[float] = None
-    mcv: Optional[float] = None
+    MCV: Optional[float] = None
+    MCH: Optional[float] = None
+    MCHC: Optional[float] = None
+    RDW: Optional[float] = None
+    hematocrit: Optional[float] = None
+    rbc: Optional[float] = None
     ferritin: Optional[float] = None
     vitamin_b12: Optional[float] = None
     folate: Optional[float] = None
@@ -35,3 +40,5 @@ class PredictionResponse(BaseModel):
     top_3_features: List[FeatureImpact]
     recommendation_for_doctor: str
     recommendation_for_patient: str
+    missing_features: List[str] = []
+    data_completeness: float = 1.0
