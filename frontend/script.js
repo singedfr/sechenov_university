@@ -285,7 +285,7 @@ if (uploadPdfBtn) {
             const formData = new FormData();
             formData.append("file", file);
 
-            const response = await fetch(`${API_BASE}/parse-pdf", {
+            const response = await fetch(`${API_BASE}/parse-pdf`, {
                 method: "POST",
                 body: formData,
             });
@@ -366,7 +366,7 @@ if (saveForPatientBtn) {
                 },
             };
 
-            const response = await fetch(`${API_BASE}/patients", {
+            const response = await fetch(`${API_BASE}/patients`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
