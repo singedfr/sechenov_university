@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/predict";
+const API_URL = "https://anemia-backend-z8ny.onrender.com";
 
 
 function collectFormData(form) {
@@ -284,7 +284,7 @@ if (uploadPdfBtn) {
             const formData = new FormData();
             formData.append("file", file);
 
-            const response = await fetch("http://127.0.0.1:8000/parse-pdf", {
+            const response = await fetch("https://anemia-backend-z8ny.onrender.com/parse-pdf", {
                 method: "POST",
                 body: formData,
             });
@@ -365,7 +365,7 @@ if (saveForPatientBtn) {
                 },
             };
 
-            const response = await fetch("http://127.0.0.1:8000/patients", {
+            const response = await fetch("https://anemia-backend-z8ny.onrender.com/patients", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -423,7 +423,7 @@ if (lookupBtn) {
         lookupBtn.textContent = "⏳ Ищу…";
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/patients/${code}`);
+            const response = await fetch(`https://anemia-backend-z8ny.onrender.com/patients/${code}`);
             const data = await response.json();
 
             if (!response.ok) {
