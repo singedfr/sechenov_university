@@ -1,4 +1,5 @@
-const API_URL = "https://anemia-backend-z8ny.onrender.com";
+const API_BASE = "https://anemia-backend-z8ny.onrender.com";
+const API_URL = `${API_BASE}/predict`;
 
 
 function collectFormData(form) {
@@ -284,7 +285,7 @@ if (uploadPdfBtn) {
             const formData = new FormData();
             formData.append("file", file);
 
-            const response = await fetch("https://anemia-backend-z8ny.onrender.com/parse-pdf", {
+            const response = await fetch(`${API_BASE}/parse-pdf", {
                 method: "POST",
                 body: formData,
             });
@@ -365,7 +366,7 @@ if (saveForPatientBtn) {
                 },
             };
 
-            const response = await fetch("https://anemia-backend-z8ny.onrender.com/patients", {
+            const response = await fetch(`${API_BASE}/patients", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -423,7 +424,7 @@ if (lookupBtn) {
         lookupBtn.textContent = "⏳ Ищу…";
 
         try {
-            const response = await fetch(`https://anemia-backend-z8ny.onrender.com/patients/${code}`);
+            const response = await fetch(`${API_BASE}/patients/${code}`);
             const data = await response.json();
 
             if (!response.ok) {
@@ -445,7 +446,6 @@ if (lookupBtn) {
 }
 
 
-// --- Отрисовка результата для пациента ---
 function renderPatientView(record) {
     const patientResult = document.getElementById("patientResult");
     const r = record.result;
@@ -457,7 +457,6 @@ function renderPatientView(record) {
         ? "По результатам анализа выявлены признаки анемии"
         : "Признаков анемии не обнаружено";
 
-    // Понятные названия диагнозов
     const diagNames = {
         "iron_deficiency_anemia": "Железодефицитная анемия",
         "B12_deficiency_anemia": "B12-дефицитная анемия",
@@ -479,7 +478,6 @@ function renderPatientView(record) {
         hour: "2-digit", minute: "2-digit",
     });
 
-    // Шаги — что делать дальше
     const steps = anemia
         ? [
             "Запишитесь на приём к терапевту или гематологу — покажите ему этот отчёт.",
