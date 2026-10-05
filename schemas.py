@@ -4,19 +4,50 @@ from typing import Optional, List
 
 class PatientData(BaseModel):
     patient_id: str
+
     age_years: Optional[float] = None
     sex: Optional[str] = None
+
     hemoglobin: Optional[float] = None
+    RBC: Optional[float] = None
+    hematocrit: Optional[float] = None
     MCV: Optional[float] = None
     MCH: Optional[float] = None
     MCHC: Optional[float] = None
     RDW: Optional[float] = None
-    hematocrit: Optional[float] = None
-    rbc: Optional[float] = None
+    platelets: Optional[float] = None
+    WBC: Optional[float] = None
+    reticulocytes: Optional[float] = None
+
     ferritin: Optional[float] = None
-    vitamin_b12: Optional[float] = None
+    serum_iron: Optional[float] = None
+    transferrin: Optional[float] = None
+    TIBC: Optional[float] = None
+    UIBC: Optional[float] = None
+    TSAT: Optional[float] = None
+    sTfR: Optional[float] = None
+    Ret_He: Optional[float] = None
+
+    vitamin_B12: Optional[float] = None
+    active_B12: Optional[float] = None
+    MMA: Optional[float] = None
+    homocysteine: Optional[float] = None
     folate: Optional[float] = None
-    crp: Optional[float] = None
+    vitamin_B6: Optional[float] = None
+
+    copper: Optional[float] = None
+    ceruloplasmin: Optional[float] = None
+
+    CRP: Optional[float] = None
+    ESR: Optional[float] = None
+    creatinine: Optional[float] = None
+    eGFR: Optional[float] = None
+    TSH: Optional[float] = None
+    albumin: Optional[float] = None
+
+    LDH: Optional[float] = None
+    indirect_bilirubin: Optional[float] = None
+    haptoglobin: Optional[float] = None
 
 
 class FeatureImpact(BaseModel):

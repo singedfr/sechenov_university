@@ -122,14 +122,21 @@ DIAGNOSES = {
 }
 
 
+def _is_present(value) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str) and value.strip() in ("", "-", "—", "н/д"):
+        return False
+    return True
+
+
 def _check_presence(tests: list, data_dict: dict) -> tuple:
     present, missing = [], []
     for t in tests:
-        v = data_dict.get(t)
-        if v is None or v == "" or v == "-":
-            missing.append(t)
-        else:
+        if _is_present(data_dict.get(t)):
             present.append(t)
+        else:
+            missing.append(t)
     return present, missing
 
 
@@ -220,9 +227,12 @@ def generate_patient_recommendation(class_name: str, data_dict: dict) -> str:
 
     base = cfg["patient_text"]
 
-    must_missing = [t for t in cfg["must_have"] if not data_dict.get(t)]
+    must_missing = [
+        t for t in cfg["must_have"]
+        if not _is_present(data_dict.get(t))
+    ]
     if must_missing and class_name != "no_anemia_no_deficiency":
-        base += "\n\nПока диагноз предварительный. Врач попросит сдать дополнительные анализы."
+        base += "\n\nПока диагноз предварительный — врач попросит сдать дополнительные анализы."
 
     return base
 
