@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Результаты лабораторных исследований</title>
+<style>
+    body {
+        font-family: "Times New Roman", Times, serif;
+        margin: 30px auto;
+        max-width: 700px;
+        color: #000;
+        line-height: 1.5;
+    }
+    .header {
+        text-align: center;
+        border-bottom: 2px solid #000;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+    }
+    .lab-name {
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    .lab-subtitle {
+        font-size: 12px;
+        color: #444;
+        margin-top: 4px;
+    }
+    .patient-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        margin-bottom: 20px;
+        padding: 10px;
+        background: #f5f5f5;
+        border-left: 4px solid #1f4e79;
+    }
+    h2 {
+        font-size: 15px;
+        margin-top: 25px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #1f4e79;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 4px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        margin-bottom: 15px;
+    }
+    th {
+        text-align: left;
+        padding: 6px 8px;
+        border-bottom: 1px solid #000;
+        background: #eaeaea;
+        font-weight: bold;
+    }
+    td {
+        padding: 5px 8px;
+        border-bottom: 1px dotted #ccc;
+    }
+    td.value {
+        font-weight: bold;
+        text-align: right;
+    }
+    td.unit {
+        color: #555;
+        font-size: 12px;
+    }
+    td.ref {
+        color: #777;
+        font-size: 11px;
+        font-style: italic;
+    }
+    .abnormal {
+        color: #b00020;
+    }
+    .footer {
+        margin-top: 30px;
+        padding-top: 15px;
+        border-top: 1px solid #ccc;
+        font-size: 11px;
+        color: #666;
+        text-align: center;
+    }
+    .signature {
+        margin-top: 25px;
+        font-size: 12px;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="lab-name">КЛИНИКО-ДИАГНОСТИЧЕСКАЯ ЛАБОРАТОРИЯ</div>
+    <div class="lab-subtitle">Результаты лабораторных исследований · Образец для тестирования</div>
+</div>
+
+<div class="patient-info">
+    <div><strong>Пациент:</strong> Тестова Анна Ивановна</div>
+    <div><strong>Пол:</strong> женский</div>
+    <div><strong>Возраст:</strong> 45 лет</div>
+    <div><strong>ID:</strong> P001</div>
+</div>
+<div class="patient-info" style="margin-top:-15px">
+    <div><strong>Дата взятия биоматериала:</strong> 04.10.2026</div>
+    <div><strong>Врач:</strong> Петрова Е.В.</div>
+</div>
+
+<h2>Общий анализ крови</h2>
+<table>
+    <tr><th>Показатель</th><th>Результат</th><th>Ед. изм.</th><th>Референс</th></tr>
+    <tr><td>Гемоглобин (HGB)</td><td class="value abnormal">100</td><td class="unit">г/л</td><td class="ref">120 – 160</td></tr>
+    <tr><td>Эритроциты (RBC)</td><td class="value">3.9</td><td class="unit">10¹²/л</td><td class="ref">3.8 – 5.1</td></tr>
+    <tr><td>Гематокрит (HCT)</td><td class="value abnormal">32</td><td class="unit">%</td><td class="ref">36 – 50</td></tr>
+    <tr><td>Средний объем эритроцита (MCV)</td><td class="value abnormal">70</td><td class="unit">фл</td><td class="ref">80 – 100</td></tr>
+    <tr><td>Среднее содержание Hb (MCH)</td><td class="value abnormal">22</td><td class="unit">пг</td><td class="ref">27 – 34</td></tr>
+    <tr><td>Средняя концентрация Hb (MCHC)</td><td class="value abnormal">300</td><td class="unit">г/л</td><td class="ref">320 – 360</td></tr>
+    <tr><td>Ширина распределения эритроцитов (RDW)</td><td class="value abnormal">17.0</td><td class="unit">%</td><td class="ref">11.5 – 14.5</td></tr>
+    <tr><td>Тромбоциты (PLT)</td><td class="value">250</td><td class="unit">10⁹/л</td><td class="ref">180 – 320</td></tr>
+    <tr><td>Лейкоциты (WBC)</td><td class="value">6.5</td><td class="unit">10⁹/л</td><td class="ref">4.0 – 9.0</td></tr>
+    <tr><td>Ретикулоциты</td><td class="value">1.2</td><td class="unit">%</td><td class="ref">0.5 – 2.0</td></tr>
+</table>
+
+<h2>Метаболизм железа</h2>
+<table>
+    <tr><th>Показатель</th><th>Результат</th><th>Ед. изм.</th><th>Референс</th></tr>
+    <tr><td>Ферритин</td><td class="value abnormal">8</td><td class="unit">нг/мл</td><td class="ref">15 – 150</td></tr>
+    <tr><td>Сывороточное железо</td><td class="value abnormal">5.0</td><td class="unit">мкмоль/л</td><td class="ref">9 – 30</td></tr>
+    <tr><td>Трансферрин</td><td class="value">3.2</td><td class="unit">г/л</td><td class="ref">2.0 – 3.6</td></tr>
+    <tr><td>ОЖСС (TIBC)</td><td class="value abnormal">70</td><td class="unit">мкмоль/л</td><td class="ref">45 – 70</td></tr>
+    <tr><td>ЛЖСС (UIBC)</td><td class="value abnormal">65</td><td class="unit">мкмоль/л</td><td class="ref">25 – 50</td></tr>
+    <tr><td>Насыщение трансферрина (TSAT)</td><td class="value abnormal">10</td><td class="unit">%</td><td class="ref">20 – 50</td></tr>
+    <tr><td>Растворимый рецептор трансферрина (sTfR)</td><td class="value abnormal">5.2</td><td class="unit">мг/л</td><td class="ref">1.8 – 4.6</td></tr>
+    <tr><td>Содержание Hb в ретикулоцитах (Ret-He)</td><td class="value abnormal">28</td><td class="unit">пг</td><td class="ref">30 – 36</td></tr>
+</table>
+
+<h2>Витамины и метаболиты</h2>
+<table>
+    <tr><th>Показатель</th><th>Результат</th><th>Ед. изм.</th><th>Референс</th></tr>
+    <tr><td>Витамин B12 (общий)</td><td class="value">350</td><td class="unit">пг/мл</td><td class="ref">200 – 900</td></tr>
+    <tr><td>Голотранскобаламин (активный B12)</td><td class="value">50</td><td class="unit">пмоль/л</td><td class="ref">35 – 170</td></tr>
+    <tr><td>Метилмалоновая кислота (MMA)</td><td class="value">0.15</td><td class="unit">нмоль/л</td><td class="ref">0.00 – 0.27</td></tr>
+    <tr><td>Гомоцистеин</td><td class="value">10.5</td><td class="unit">мкмоль/л</td><td class="ref">5 – 15</td></tr>
+    <tr><td>Фолаты</td><td class="value">5.0</td><td class="unit">нг/мл</td><td class="ref">3.0 – 17.0</td></tr>
+    <tr><td>Витамин B6 (PLP)</td><td class="value">20</td><td class="unit">нг/мл</td><td class="ref">5 – 30</td></tr>
+</table>
+
+<h2>Микроэлементы</h2>
+<table>
+    <tr><th>Показатель</th><th>Результат</th><th>Ед. изм.</th><th>Референс</th></tr>
+    <tr><td>Медь сывороточная</td><td class="value">15.0</td><td class="unit">мкмоль/л</td><td class="ref">11 – 24</td></tr>
+    <tr><td>Церулоплазмин</td><td class="value">0.25</td><td class="unit">г/л</td><td class="ref">0.20 – 0.60</td></tr>
+</table>
+
+<h2>Воспалительные маркеры и соматический профиль</h2>
+<table>
+    <tr><th>Показатель</th><th>Результат</th><th>Ед. изм.</th><th>Референс</th></tr>
+    <tr><td>С-реактивный белок (СРБ, CRP)</td><td class="value">2.1</td><td class="unit">мг/л</td><td class="ref">0 – 5</td></tr>
+    <tr><td>Скорость оседания эритроцитов (СОЭ, ESR)</td><td class="value">15</td><td class="unit">мм/ч</td><td class="ref">2 – 20</td></tr>
+    <tr><td>Креатинин</td><td class="value">80</td><td class="unit">мкмоль/л</td><td class="ref">58 – 96</td></tr>
+    <tr><td>Расчетная СКФ (eGFR)</td><td class="value">90</td><td class="unit">мл/мин/1.73м²</td><td class="ref">&gt; 60</td></tr>
+    <tr><td>Тиреотропный гормон (ТТГ, TSH)</td><td class="value">2.0</td><td class="unit">мМЕ/л</td><td class="ref">0.4 – 4.0</td></tr>
+    <tr><td>Альбумин</td><td class="value">42</td><td class="unit">г/л</td><td class="ref">35 – 50</td></tr>
+</table>
+
+<h2>Маркеры гемолиза и тканевого распада</h2>
+<table>
+    <tr><th>Показатель</th><th>Результат</th><th>Ед. изм.</th><th>Референс</th></tr>
+    <tr><td>Лактатдегидрогеназа (ЛДГ, LDH)</td><td class="value">220</td><td class="unit">Ед/л</td><td class="ref">120 – 250</td></tr>
+    <tr><td>Непрямой билирубин</td><td class="value">8.0</td><td class="unit">мкмоль/л</td><td class="ref">3.0 – 12.0</td></tr>
+    <tr><td>Гаптоглобин</td><td class="value">1.00</td><td class="unit">г/л</td><td class="ref">0.30 – 2.00</td></tr>
+</table>
+
+<div class="signature">
+    Врач клинической лабораторной диагностики: _____________ / Смирнова О.А. /
+</div>
+
+<div class="footer">
+    Данный документ является образцом для тестирования сервиса. Не является медицинским заключением.
+</div>
+
+</body>
+</html>

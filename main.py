@@ -1,4 +1,6 @@
-﻿from fastapi import FastAPI, HTTPException
+﻿from fastapi import File, UploadFile
+from pdf_parser import parse_pdf
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from schemas import PatientData, PredictionResponse, ClassProbability, FeatureImpact
 from recommendations import generate_recommendations
@@ -64,22 +66,6 @@ def predict(data: PatientData) -> PredictionResponse:
             data=data,
         )
 
-        missing = result.get("missing_features", [])
-        if missing:
-            critical = [
-                f for f in missing
-                if f in {
-                    "hemoglobin", "MCV", "MCH", "MCHC", "RDW",
-                    "ferritin", "serum_iron", "TSAT", "sTfR",
-                    "vitamin_B12", "active_B12", "folate", "homocysteine", "MMA",
-                    "CRP", "ESR",
-                }
-            ]
-            if critical:
-                tests_to_add = ", ".join(critical[:10])
-                rec_doctor += f"\n\n[!] Missing tests for accurate diagnosis: {tests_to_add}. Recommended to add."
-                rec_patient += "\n\nSome tests are missing - the doctor may order additional ones."
-
         return PredictionResponse(
             patient_id=data.patient_id,
             anemia_present=anemia_present,
@@ -110,4 +96,40 @@ def predict(data: PatientData) -> PredictionResponse:
         raise HTTPException(
             status_code=500,
             detail=f"Internal service error: {str(e)}",
+        )
+
+
+@app.post("/parse-pdf")
+async def parse_pdf_endpoint(file: UploadFile = File(...)):
+    if not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(
+            status_code=400,
+            detail="Поддерживаются только PDF-файлы.",
+        )
+
+    try:
+        contents = await file.read()
+
+        if len(contents) > 10 * 1024 * 1024:
+            raise HTTPException(
+                status_code=400,
+                detail="Файл слишком большой (максимум 10 МБ).",
+            )
+
+        result = parse_pdf(contents)
+
+        if not result["ok"]:
+            raise HTTPException(
+                status_code=422,
+                detail=result.get("error", "Не удалось распознать PDF."),
+            )
+
+        return result
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Ошибка обработки PDF: {str(e)}",
         )

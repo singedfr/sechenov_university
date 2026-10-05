@@ -392,3 +392,66 @@ h3 {
         font-size: 11px;
     }
 }
+.pdf-upload-block {
+    background: #f7f9fc;
+    border: 2px dashed #b6c9e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.pdf-upload-block h3 {
+    margin-top: 0;
+    color: #1f4e79;
+}
+
+.pdf-hint {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 16px;
+}
+
+.pdf-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.pdf-file-name {
+    color: #666;
+    font-style: italic;
+}
+
+.pdf-status {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #eaf4ff;
+    color: #1f4e79;
+}
+
+.pdf-status.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.pdf-status.error {
+    background: #fdecea;
+    color: #a94442;
+}
+
+.field-autofilled {
+    background: #e8f5e9;
+    border-color: #4caf50;
+    transition: background 0.3s;
+}
+
+.btn-primary {
+    background: #1f4e79;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #163a5c;
+}

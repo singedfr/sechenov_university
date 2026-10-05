@@ -14,6 +14,24 @@
         </header>
 
         <h1>Анализ для врача</h1>
+        <div class="pdf-upload-block">
+            <h3>📄 Загрузить анализы из PDF</h3>
+            <p class="pdf-hint">
+                Прикрепите PDF-файл с анализами — сервис распознает показатели и заполнит форму автоматически.
+                <strong>Обязательно проверьте распознанные значения перед отправкой.</strong>
+            </p>
+            <div class="pdf-controls">
+                <input type="file" id="pdfFile" accept=".pdf" hidden>
+                <button type="button" id="uploadPdfBtn" class="btn btn-secondary">
+                    📎 Выбрать PDF
+                </button>
+                <span id="pdfFileName" class="pdf-file-name">Файл не выбран</span>
+                <button type="button" id="parsePdfBtn" class="btn btn-primary hidden">
+                    🔄 Распознать
+                </button>
+            </div>
+            <div id="pdfStatus" class="pdf-status hidden"></div>
+        </div>
         <p class="subtitle">
             Введите лабораторные показатели пациента.
             <strong>Чем больше полей заполнено — тем точнее диагноз.</strong>

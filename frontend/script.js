@@ -268,3 +268,94 @@ if (loadExampleBtn) {
         }
     });
 }
+
+// =====================================================
+// PDF-ЗАГРУЗКА
+// =====================================================
+const pdfFileInput = document.getElementById("pdfFile");
+const uploadPdfBtn = document.getElementById("uploadPdfBtn");
+const parsePdfBtn = document.getElementById("parsePdfBtn");
+const pdfFileName = document.getElementById("pdfFileName");
+const pdfStatus = document.getElementById("pdfStatus");
+
+if (uploadPdfBtn) {
+    // Кнопка "Выбрать PDF" открывает системный диалог
+    uploadPdfBtn.addEventListener("click", () => {
+        pdfFileInput.click();
+    });
+
+    // Когда файл выбран — показываем имя и кнопку "Распознать"
+    pdfFileInput.addEventListener("change", () => {
+        const file = pdfFileInput.files[0];
+        if (file) {
+            pdfFileName.textContent = file.name;
+            parsePdfBtn.classList.remove("hidden");
+            pdfStatus.classList.add("hidden");
+        } else {
+            pdfFileName.textContent = "Файл не выбран";
+            parsePdfBtn.classList.add("hidden");
+        }
+    });
+
+    // Кнопка "Распознать"
+    parsePdfBtn.addEventListener("click", async () => {
+        const file = pdfFileInput.files[0];
+        if (!file) return;
+
+        // Показать статус "обработка"
+        pdfStatus.className = "pdf-status";
+        pdfStatus.textContent = "⏳ Распознаю PDF…";
+        pdfStatus.classList.remove("hidden");
+        parsePdfBtn.disabled = true;
+
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const response = await fetch("http://127.0.0.1:8000/parse-pdf", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.detail || "Не удалось распознать PDF");
+            }
+
+            const extracted = data.extracted || {};
+            const count = Object.keys(extracted).length;
+
+            if (count === 0) {
+                pdfStatus.className = "pdf-status error";
+                pdfStatus.textContent =
+                    "⚠️ Не удалось распознать ни одного показателя. " +
+                    "Возможно, файл отсканирован или имеет нестандартный формат. " +
+                    "Заполните форму вручную.";
+                return;
+            }
+
+            // Заполняем форму найденными значениями
+            for (const [name, value] of Object.entries(extracted)) {
+                const field = document.getElementById(name);
+                if (field) {
+                    field.value = value;
+                    // Подсветить зелёным — видно, что поле распознано
+                    field.classList.add("field-autofilled");
+                }
+            }
+
+            pdfStatus.className = "pdf-status success";
+            pdfStatus.innerHTML =
+                `✅ Распознано показателей: <strong>${count}</strong>.<br>` +
+                `Проверьте значения в форме — при необходимости исправьте.<br>` +
+                `<small>Не найдено: ${data.not_found.length} показателей — их можно заполнить вручную.</small>`;
+
+        } catch (err) {
+            pdfStatus.className = "pdf-status error";
+            pdfStatus.textContent = `⚠️ Ошибка: ${err.message}`;
+        } finally {
+            parsePdfBtn.disabled = false;
+        }
+    });
+}
