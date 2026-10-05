@@ -1,11 +1,16 @@
+// ==== АДРЕС BACKEND ====
 const API_URL = "http://127.0.0.1:8000/predict";
 
 
+// =====================================================
+// 1. СБОР ДАННЫХ ИЗ ФОРМЫ
+// =====================================================
 function collectFormData(form) {
     const formData = new FormData(form);
     const payload = {};
 
     for (const [key, value] of formData.entries()) {
+        // Пропускаем пустые значения и прочерки
         if (
             value === "" ||
             value === null ||
@@ -17,6 +22,7 @@ function collectFormData(form) {
             continue;
         }
 
+        // Если это числовое значение — приводим к числу
         const num = parseFloat(value);
         payload[key] = isNaN(num) ? value : num;
     }
@@ -25,17 +31,22 @@ function collectFormData(form) {
 }
 
 
+// =====================================================
+// 2. ОТПРАВКА НА BACKEND
+// =====================================================
 async function sendToBackend(form, role) {
     const resultDiv = document.getElementById("result");
     const errorDiv  = document.getElementById("error");
     const loadingDiv = document.getElementById("loading");
     const submitBtn = document.getElementById("submitBtn");
 
+    // Сброс состояния
     resultDiv.classList.add("hidden");
     errorDiv.classList.add("hidden");
     resultDiv.innerHTML = "";
     errorDiv.innerHTML = "";
 
+    // Показать загрузку
     loadingDiv.classList.remove("hidden");
     if (submitBtn) submitBtn.disabled = true;
 
@@ -53,6 +64,7 @@ async function sendToBackend(form, role) {
         console.log("← Ответ:", data);
 
         if (!response.ok) {
+            // Backend вернул ошибку (422, 500 и т.д.)
             const msg = data.detail || `Ошибка сервера: ${response.status}`;
             throw new Error(typeof msg === "string" ? msg : JSON.stringify(msg));
         }
@@ -81,6 +93,9 @@ async function sendToBackend(form, role) {
 }
 
 
+// =====================================================
+// 3. ОТРИСОВКА РЕЗУЛЬТАТА
+// =====================================================
 function renderResult(result, role) {
     const resultDiv = document.getElementById("result");
     resultDiv.classList.remove("hidden");
@@ -100,17 +115,21 @@ function renderResult(result, role) {
 }
 
 
+// --- Отображение для врача ---
 function renderDoctorResult(r) {
     const anemia = r.anemia_present;
     const completeness = r.data_completeness ?? 1.0;
     const missing = r.missing_features || [];
 
+    // Цвет плашки диагноза
     const diagnosisClass = anemia ? "diagnosis-anemia" : "diagnosis-normal";
 
+    // Цвет полноты данных
     let completenessClass = "completeness-good";
     if (completeness < 0.5) completenessClass = "completeness-bad";
     else if (completeness < 0.8) completenessClass = "completeness-warn";
 
+    // Топ-3 класса
     const topClassesHtml = (r.top_3_classes || [])
         .map(
             (c) => `
@@ -124,6 +143,7 @@ function renderDoctorResult(r) {
         )
         .join("");
 
+    // Топ-3 признака
     const topFeaturesHtml = (r.top_3_features || [])
         .map(
             (f) => `
@@ -135,6 +155,7 @@ function renderDoctorResult(r) {
         )
         .join("");
 
+    // Пропущенные признаки
     const missingHtml = missing.length
         ? `<div class="missing-block">
                 <h4>⚠️ Не хватает анализов для точного диагноза (${missing.length}):</h4>
@@ -176,6 +197,7 @@ function renderDoctorResult(r) {
 }
 
 
+// --- Отображение для пациента ---
 function renderPatientResult(r) {
     const anemia = r.anemia_present;
     const statusIcon = anemia ? "🔴" : "🟢";
@@ -203,6 +225,9 @@ function renderPatientResult(r) {
 }
 
 
+// =====================================================
+// 4. ПРИВЯЗКА ФОРМ
+// =====================================================
 const doctorForm = document.getElementById("doctorForm");
 if (doctorForm) {
     doctorForm.addEventListener("submit", async (e) => {
@@ -220,6 +245,9 @@ if (patientForm) {
 }
 
 
+// =====================================================
+// 5. КНОПКА "ЗАГРУЗИТЬ ПРИМЕР" (для формы врача)
+// =====================================================
 const loadExampleBtn = document.getElementById("loadExample");
 if (loadExampleBtn) {
     loadExampleBtn.addEventListener("click", () => {
@@ -248,6 +276,9 @@ if (loadExampleBtn) {
     });
 }
 
+// =====================================================
+// PDF-ЗАГРУЗКА
+// =====================================================
 const pdfFileInput = document.getElementById("pdfFile");
 const uploadPdfBtn = document.getElementById("uploadPdfBtn");
 const parsePdfBtn = document.getElementById("parsePdfBtn");
@@ -255,10 +286,12 @@ const pdfFileName = document.getElementById("pdfFileName");
 const pdfStatus = document.getElementById("pdfStatus");
 
 if (uploadPdfBtn) {
+    // Кнопка "Выбрать PDF" открывает системный диалог
     uploadPdfBtn.addEventListener("click", () => {
         pdfFileInput.click();
     });
 
+    // Когда файл выбран — показываем имя и кнопку "Распознать"
     pdfFileInput.addEventListener("change", () => {
         const file = pdfFileInput.files[0];
         if (file) {
@@ -271,10 +304,12 @@ if (uploadPdfBtn) {
         }
     });
 
+    // Кнопка "Распознать"
     parsePdfBtn.addEventListener("click", async () => {
         const file = pdfFileInput.files[0];
         if (!file) return;
 
+        // Показать статус "обработка"
         pdfStatus.className = "pdf-status";
         pdfStatus.textContent = "⏳ Распознаю PDF…";
         pdfStatus.classList.remove("hidden");
@@ -332,7 +367,9 @@ if (uploadPdfBtn) {
     });
 }
 
-
+// =====================================================
+// СОХРАНЕНИЕ РЕЗУЛЬТАТА И ПОЛУЧЕНИЕ КОРОТКОГО ID
+// =====================================================
 const saveForPatientBtn = document.getElementById("saveForPatient");
 if (saveForPatientBtn) {
     saveForPatientBtn.addEventListener("click", async () => {
@@ -350,9 +387,11 @@ if (saveForPatientBtn) {
         shareResult.classList.remove("hidden");
 
         try {
+            // Формируем итоговый отчёт, который увидит пациент
             const payload = {
                 patient_id: result.patient_id || "unknown",
                 result: {
+                    // Минимум, который нужен пациенту:
                     anemia_present: result.anemia_present,
                     class_prediction: result.class_prediction,
                     class_probability: result.class_probability,
@@ -393,17 +432,21 @@ if (saveForPatientBtn) {
     });
 }
 
-
+// =====================================================
+// ПАЦИЕНТ: ЗАГРУЗКА РЕЗУЛЬТАТА ПО КОДУ
+// =====================================================
 const lookupBtn = document.getElementById("lookupBtn");
 if (lookupBtn) {
     const codeInput = document.getElementById("codeInput");
     const codeError = document.getElementById("codeError");
     const patientResult = document.getElementById("patientResult");
 
+    // Автоматически: при вводе — заглавные буквы
     codeInput.addEventListener("input", () => {
         codeInput.value = codeInput.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
     });
 
+    // Enter в поле = нажатие кнопки
     codeInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") lookupBtn.click();
     });
@@ -453,11 +496,11 @@ function renderPatientView(record) {
     const anemia = r.anemia_present;
     const statusClass = anemia ? "anemia" : "normal";
     const statusIcon = anemia ? "🔴" : "🟢";
-    const statusTitle = anemia
+    const statusText = anemia
         ? "По результатам анализа выявлены признаки анемии"
         : "Признаков анемии не обнаружено";
 
-    // Понятные названия диагнозов
+    // Понятное название диагноза
     const diagNames = {
         "iron_deficiency_anemia": "Железодефицитная анемия",
         "B12_deficiency_anemia": "B12-дефицитная анемия",
@@ -479,64 +522,33 @@ function renderPatientView(record) {
         hour: "2-digit", minute: "2-digit",
     });
 
-    // Шаги — что делать дальше
-    const steps = anemia
-        ? [
-            "Запишитесь на приём к терапевту или гематологу — покажите ему этот отчёт.",
-            "Не принимайте препараты железа или витамины самостоятельно — дозировки назначает врач.",
-            "Сдайте дополнительные анализы, которые порекомендует врач — так диагноз будет точнее.",
-            "После начала лечения обязательно сдайте контрольные анализы.",
-        ]
-        : [
-            "Признаков анемии не найдено — повторите контрольные анализы через 12 месяцев.",
-            "Если вы чувствуете слабость, утомляемость или другие симптомы — расскажите об этом врачу.",
-            "Поддерживайте разнообразное питание, богатое железом и витаминами группы B.",
-        ];
-
-    const stepsHtml = steps
-        .map(
-            (s, i) => `
-        <li class="next-step">
-            <span class="next-step-number">${i + 1}</span>
-            <span class="next-step-text">${s}</span>
-        </li>`
-        )
-        .join("");
-
     patientResult.innerHTML = `
-        <div class="result-header">
-            <span class="result-header-icon">📋</span>
-            <h2 class="result-header-title">Ваш результат</h2>
-            <div class="result-header-sub">Код: ${record.patient_id} · ${date}</div>
+        <h2>Ваш результат</h2>
+        <p class="record-meta">
+            Код: <strong>${record.patient_id}</strong> ·
+            Создан: ${date}
+        </p>
+
+        <div class="patient-status ${statusClass}">
+            ${statusIcon} ${statusText}
         </div>
 
-        <div class="status-card ${statusClass}">
-            <span class="status-card-icon">${statusIcon}</span>
-            <div class="status-card-title">${statusTitle}</div>
-            <div class="status-card-diag">
-                Что показывают анализы: <strong>${diagHuman}</strong>
-            </div>
+        <p><strong>Что показывают анализы:</strong> ${diagHuman}.</p>
+
+        <div class="patient-summary">
+            <p>${r.recommendation_for_patient || ""}</p>
         </div>
 
-        <div class="simple-explanation">
-            <div class="simple-explanation-title">Что это значит</div>
-            <p>${r.recommendation_for_patient || "Обратитесь к врачу за подробной интерпретацией."}</p>
-        </div>
+        <h3>Что делать дальше</h3>
+        <ol class="patient-actions">
+            <li>Покажите этот отчёт вашему лечащему врачу (терапевту или гематологу).</li>
+            <li>Не занимайтесь самолечением — дозировки препаратов назначает врач.</li>
+            <li>Если врач назначил дополнительные анализы — сдайте их и вернитесь с результатами.</li>
+        </ol>
 
-        <div class="next-steps">
-            <h3 class="next-steps-title">📌 Что делать дальше</h3>
-            <ul class="next-steps-list">
-                ${stepsHtml}
-            </ul>
-        </div>
-
-        <div class="result-actions">
-            <button type="button" class="btn btn-patient" onclick="window.print()">
-                🖨️ Распечатать
-            </button>
-            <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">
-                🏠 На главную
-            </button>
-        </div>
+        <p class="disclaimer">
+            Этот сервис не является медицинским заключением.
+            Окончательный диагноз ставит врач.
+        </p>
     `;
 }

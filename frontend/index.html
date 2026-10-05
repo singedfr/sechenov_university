@@ -4,39 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ИИ-скрининг дефицитных состояний | Сеченовский Университет</title>
+    <meta name="description" content="ИИ-сервис для автоматической интерпретации лабораторных анализов. Определяет анемию и дефицитные состояния, формирует рекомендации для врача и пациента.">
     <link rel="icon" type="image/png" href="Sechenov Logo color horizontal.png">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo-placeholder">
-                <img src="Sechenov Logo color horizontal.png" alt="Сеченовский Университет" class="logo-img">
-            </div>
-        </header>
 
-        <h1>ИИ-скрининг<br><span class=".accent { color: #1f4e79; }">дефицитных состояний</span></h1>
-        <p class="subtitle">Автоматический анализ лабораторных показателей</p>
-        <p class="lead">
-    Введите результаты анализов — сервис определит наличие анемии и скрытых дефицитов,
-    предложит рекомендации по дообследованию.
-</p>
-        <div class="buttons">
-            <a href="doctor.html" class="btn btn-doctor">
-                <span class="btn-icon">👨‍⚕️</span>
-                <span class="btn-text">Я врач</span>
-                <span class="btn-hint">Ввод анализов и полный клинический отчёт</span>
-            </a>
-
-            <a href="patient.html" class="btn btn-patient">
-                <span class="btn-icon">🧑</span>
-                <span class="btn-text">Я пациент</span>
-                <span class="btn-hint">Понятный результат и что делать дальше</span>
-            </a>
+    <!-- ================= HEADER ================= -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <img src="Sechenov Logo color horizontal.png"
+                 alt="Сеченовский Университет"
+                 class="logo-img">
+            <div class="header-tagline">Наука о жизни</div>
         </div>
+    </header>
 
-        <p class="disclaimer">
-            Сервис не заменяет консультацию врача. Результаты носят информационный характер.
-        </p>
-    </div>
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">🩸 ИИ-скрининг · Версия 0.1</div>
+            <h1 class="hero-title">
+                ИИ-скрининг<br>
+                <span class="hero-accent">дефицитных состояний</span>
+            </h1>
+            <p class="hero-lead">
+                Автоматический анализ лабораторных показателей с использованием машинного обучения.
+                Сервис определяет наличие анемии, выявляет скрытые дефициты и предлагает рекомендации —
+                отдельно для врача и пациента.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="doctor.html" class="btn btn-doctor btn-large">
+                    <span class="btn-icon">👨‍⚕️</span>
+                    <span>
+                        <span class="btn-label">Я врач</span>
+                        <span class="btn-hint">Ввод анализов и клинический отчёт</span>
+                    </span>
+                </a>
+                <a href="patient.html" class="btn btn-patient btn-large">
+                    <span class="btn-icon">🧑</span>
+                    <span>
+                        <span class="btn-label">Я пациент</span>
+                        <span class="btn-hint">Понятный результат по коду от врача</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= КАК ЭТО РАБОТАЕТ ================= -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Как это работает</h2>
+            <p class="section-subtitle">Четыре шага от анализов до понятного результата</p>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📄</div>
+                    <h3 class="step-title">Загрузка анализов</h3>
+                    <p class="step-text">
+                        Врач вводит данные вручную или загружает PDF-файл с результатами лаборатории —
+                        сервис распознаёт показатели автоматически.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🧠</div>
+                    <h3 class="step-title">ИИ-анализ</h3>
+                    <p class="step-text">
+                        Модель машинного обучения сравнивает показатели с медицинскими нормами,
+                        оценивает вероятности 12 типов дефицитных состояний.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">📊</div>
+                    <h3 class="step-title">Клинический отчёт</h3>
+                    <p class="step-text">
+                        Врач получает диагноз, вероятности, ключевые признаки и рекомендации
+                        с учётом уже сданных и отсутствующих анализов.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">🔐</div>
+                    <h3 class="step-title">Код для пациента</h3>
+                    <p class="step-text">
+                        Врач генерирует короткий код. Пациент вводит его на странице
+                        и видит понятное объяснение без медицинского жаргона.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= ЧТО УМЕЕТ ================= -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Что умеет сервис</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">🔬</div>
+                    <h4>37 лабораторных признаков</h4>
+                    <p>Общий анализ крови, обмен железа, витамины, воспаление, гемолиз.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <h4>12 классов диагнозов</h4>
+                    <p>От отсутствия дефицитов до смешанных и неясных форм анемий.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📈</div>
+                    <h4>Оценка уверенности</h4>
+                    <p>Показывает вероятность каждого диагноза и объясняет, на чём основано решение.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚕️</div>
+                    <h4>Учёт полноты данных</h4>
+                    <p>Если каких-то анализов нет — сервис честно сообщит, что стоит досдать.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CTA / DISCLAIMER ================= -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-icon">⚕️</div>
+                <p>
+                    <strong>Важно.</strong> Сервис не заменяет консультацию врача.
+                    Результаты носят информационный характер и требуют верификации специалистом.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 Сеченовский Университет · Кейс «ИИ-скрининг дефицитных состояний»</p>
+            <p class="footer-sub">Разработано в рамках хакатона · Команда проекта</p>
+        </div>
+    </footer>
+
 </body>
 </html>

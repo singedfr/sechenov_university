@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой результат | ИИ-скрининг</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="index.html" class="back-link">← На главную</a>
+            <img src="Sechenov Logo color horizontal.png" alt="Сеченовский Университет" class="logo-img">
+        </header>
+
+        <h1>Мой результат</h1>
+        <p class="subtitle">Введите код, который вам передал врач</p>
+
+        <div id="codeEntry" class="code-entry">
+            <label for="codeInput">Код доступа</label>
+            <input
+                type="text"
+                id="codeInput"
+                class="code-input"
+                placeholder="Например: K7M3PQ"
+                maxlength="10"
+                autocomplete="off"
+                autocapitalize="characters"
+                spellcheck="false"
+            >
+            <button type="button" id="lookupBtn" class="btn btn-patient">
+                🔍 Показать результат
+            </button>
+            <div id="codeError" class="error hidden"></div>
+        </div>
+
+        <div id="patientResult" class="patient-result hidden"></div>
+
+        <p class="disclaimer">
+            Сервис не заменяет консультацию врача. Результаты носят информационный характер.
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

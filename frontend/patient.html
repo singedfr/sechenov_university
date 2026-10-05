@@ -3,43 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой результат | ИИ-скрининг</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Мой результат | ИИ-скрининг дефицитных состояний</title>
+    <link rel="icon" type="image/png" href="Sechenov Logo color horizontal.png">
+    <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
+
+    <!-- ================= HEADER ================= -->
+    <header class="site-header">
+        <div class="container header-inner">
             <a href="index.html" class="back-link">← На главную</a>
-            <img src="Sechenov Logo color horizontal.png" alt="Сеченовский Университет" class="logo-img">
-        </header>
-
-        <h1>Мой результат</h1>
-        <p class="subtitle">Введите код, который вам передал врач</p>
-
-        <div id="codeEntry" class="code-entry">
-            <label for="codeInput">Код доступа</label>
-            <input
-                type="text"
-                id="codeInput"
-                class="code-input"
-                placeholder="Например: K7M3PQ"
-                maxlength="10"
-                autocomplete="off"
-                autocapitalize="characters"
-                spellcheck="false"
-            >
-            <button type="button" id="lookupBtn" class="btn btn-patient">
-                🔍 Показать результат
-            </button>
-            <div id="codeError" class="error hidden"></div>
+            <img src="Sechenov Logo color horizontal.png"
+                 alt="Сеченовский Университет"
+                 class="logo-img">
+            <div class="header-tagline">Наука о жизни</div>
         </div>
+    </header>
 
-        <div id="patientResult" class="patient-result hidden"></div>
+    <!-- ================= HERO ================= -->
+    <section class="patient-hero">
+        <div class="container">
+            <div class="hero-badge">🧑 Для пациента</div>
+            <h1 class="patient-title">Мой результат анализа</h1>
+            <p class="patient-lead">
+                Введите код, который вам передал врач — и вы увидите понятное объяснение
+                ваших анализов без медицинских терминов.
+            </p>
+        </div>
+    </section>
 
-        <p class="disclaimer">
-            Сервис не заменяет консультацию врача. Результаты носят информационный характер.
-        </p>
-    </div>
+    <!-- ================= ВВОД КОДА ================= -->
+    <section class="code-section">
+        <div class="container">
+            <div class="code-card">
+                <div class="code-card-icon">🔐</div>
+                <h2 class="code-card-title">Введите код доступа</h2>
+                <p class="code-card-hint">
+                    Код состоит из 6 символов: букв и цифр. Например: <strong>K7M3PQ</strong>
+                </p>
+
+                <div class="code-input-wrapper">
+                    <input type="text"
+                           id="codeInput"
+                           class="code-input"
+                           placeholder="______"
+                           maxlength="10"
+                           autocomplete="off"
+                           autocapitalize="characters"
+                           spellcheck="false"
+                           inputmode="text">
+                </div>
+
+                <button type="button" id="lookupBtn" class="btn btn-patient btn-full">
+                    🔍 Показать результат
+                </button>
+
+                <div id="codeError" class="error hidden"></div>
+
+                <div class="code-help">
+                    <span class="code-help-icon">ℹ️</span>
+                    Нет кода? Обратитесь к врачу, который проводил анализ.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= РЕЗУЛЬТАТ ================= -->
+    <section id="patientResult" class="patient-result hidden"></section>
+
+    <!-- ================= CTA ================= -->
+    <section class="cta patient-cta">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-icon">⚕️</div>
+                <p>
+                    <strong>Помните.</strong> Этот сервис — вспомогательный инструмент.
+                    Он не заменяет консультацию врача и не является медицинским заключением.
+                    Обязательно покажите результаты вашему лечащему врачу.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 Сеченовский Университет · Кейс «ИИ-скрининг дефицитных состояний»</p>
+            <p class="footer-sub">Если у вас есть вопросы — обратитесь к врачу</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
