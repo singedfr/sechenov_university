@@ -1,397 +1,345 @@
-:root {
-    --sechenov-primary: #21108E;
-    --sechenov-dark-blue: #21108E;
-    --sechenov-deep-blue: #21108E;
-    --sechenov-bright-blue: #5E70FF;
-
-    --bg-page: #21108E;
-    --bg-white: #FFFFFF;
-    --bg-light-blue: #E6EEF9;
-    --bg-card: #DDE5FF;
-    --bg-light-gray: #F0F1F2;
-
-    --text-main: #21108E;
-    --text-white: #FFFFFF;
-
-    --border-light: rgba(33, 16, 142, 0.16);
-    --border-extra-light: rgba(33, 16, 142, 0.08);
-
-    --space-xs: 8px;
-    --space-sm: 16px;
-    --space-md: 24px;
-    --space-lg: 40px;
-    --space-xl: 60px;
-
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-}
-
+/* =====================================================================
+   RESET & BASE
+   ===================================================================== */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+}
+
+html {
+    font-size: clamp(14px, 1.5vw, 16px);
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: url('Frame 2.png') center/cover no-repeat fixed;
-    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    background: #f5f7fa;
+    color: #2c3e50;
     line-height: 1.6;
-    padding: var(--space-lg) var(--space-sm);
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 0;
+    /* НЕТ никаких background-image — убираем декоративные картинки по бокам */
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* =====================================================================
+   CONTAINER — ограничивает ширину контента
+   ===================================================================== */
 .container {
-    background: var(--bg-white);
-    padding: var(--space-xl) var(--space-lg);
-    border-radius: var(--radius-lg);
-    max-width: 560px;
-    width: 100%;
-    border-top: 6px solid var(--sechenov-primary);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-    color: var(--text-main);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: clamp(16px, 3vw, 40px);
 }
 
 .container-wide {
-    max-width: 900px;
+    max-width: 1300px;
 }
 
+/* =====================================================================
+   HEADER
+   ===================================================================== */
 .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-lg);
-    padding-bottom: var(--space-sm);
-    border-bottom: 1px solid var(--border-light);
-    gap: var(--space-sm);
-}
-
-.back-link {
-    color: var(--sechenov-primary);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    transition: opacity 0.2s;
-    flex-shrink: 0;
-}
-
-.back-link:hover {
-    opacity: 0.7;
-}
-
-.back-link:active {
-    opacity: 0.5;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: clamp(24px, 4vw, 48px);
+    border-bottom: 1px solid #e1e6ec;
+    flex-wrap: wrap;
 }
 
 .logo-img {
-    height: 40px;
-    width: auto;
-    max-width: 200px;
-    object-fit: contain;
-    flex-shrink: 0;
+    max-width: 280px;
+    height: auto;
+    width: 100%;
 }
 
-.logo-placeholder {
-    text-align: right;
+/* На мобильных — логотип меньше */
+@media (max-width: 600px) {
+    .logo-img {
+        max-width: 180px;
+    }
 }
 
-.logo-text {
-    font-family: Georgia, serif;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--sechenov-primary);
-    letter-spacing: 1.2px;
-    line-height: 1.3;
-    text-transform: uppercase;
+.back-link {
+    color: #1f4e79;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
 }
 
+.back-link:hover {
+    background: #eaf4ff;
+}
+
+/* =====================================================================
+   ТИПОГРАФИКА
+   ===================================================================== */
 h1 {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 34px;
-    color: var(--text-main);
-    margin-bottom: var(--space-xs);
-    font-weight: 700;
-    letter-spacing: -0.5px;
+    font-size: clamp(1.8rem, 4vw, 3rem);
     line-height: 1.2;
-}
-
-.subtitle {
-    color: var(--text-main);
-    font-size: 14px;
-    margin-bottom: var(--space-lg);
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    font-weight: 600;
+    color: #1f4e79;
+    margin-bottom: 16px;
+    text-align: center;
 }
 
 h2 {
-    font-family: Georgia, serif;
-    color: var(--text-main);
-    font-size: 24px;
-    margin-bottom: var(--space-sm);
-    padding-bottom: var(--space-xs);
-    border-bottom: 1px solid var(--border-light);
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    color: #1f4e79;
+    margin: 24px 0 12px;
 }
 
 h3 {
-    font-size: 14px;
-    color: var(--text-main);
-    margin: var(--space-md) 0 var(--space-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    font-weight: 700;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: #2c3e50;
+    margin: 20px 0 10px;
 }
 
+.subtitle {
+    text-align: center;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: #5a6b7c;
+    margin-bottom: clamp(24px, 4vw, 40px);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* =====================================================================
+   ГЛАВНАЯ СТРАНИЦА (index.html)
+   ===================================================================== */
 .buttons {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: clamp(24px, 4vw, 40px) 0;
 }
 
 .btn {
-    display: block;
-    padding: 18px 24px;
-    border-radius: var(--radius-sm);
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    transition: opacity 0.2s ease;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-}
-
-.btn-primary,
-.btn-doctor {
-    background-color: var(--sechenov-primary);
-    color: var(--text-white);
-}
-
-.btn-primary:hover,
-.btn-doctor:hover {
-    opacity: 0.85;
-}
-
-.btn-primary:active,
-.btn-doctor:active {
-    opacity: 0.7;
-}
-
-.btn-secondary,
-.btn-patient {
-    background-color: var(--bg-white);
-    color: var(--sechenov-primary);
-    border: 2px solid var(--sechenov-primary);
-}
-
-.btn-secondary:hover,
-.btn-patient:hover {
-    background-color: var(--bg-light-blue);
-}
-
-.btn-secondary:active,
-.btn-patient:active {
-    background-color: var(--sechenov-primary);
-    color: var(--text-white);
-}
-
-.btn-tertiary {
-    background-color: var(--bg-light-gray);
-    color: var(--text-main);
-}
-
-.btn-tertiary:hover {
-    background-color: var(--bg-card);
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-sm) var(--space-md);
-    margin-bottom: var(--space-md);
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-bottom: var(--space-sm);
-}
-
-.form-group label {
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: var(--space-xs);
-    color: var(--text-main);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-}
-
-.form-group input,
-.form-group select {
-    padding: 14px 16px;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-sm);
-    font-size: 16px;
-    font-family: inherit;
-    color: var(--text-main);
-    background-color: var(--bg-white);
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: var(--sechenov-primary);
-    box-shadow: 0 0 0 3px rgba(33, 16, 142, 0.12);
-}
-
-.form-group input::placeholder {
-    color: rgba(33, 16, 142, 0.4);
-}
-
-.checkbox-group {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-sm);
-    text-align: left;
-}
-
-.checkbox-group input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--sechenov-primary);
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.checkbox-group label {
-    font-size: 15px;
-    color: var(--text-main);
-    cursor: pointer;
-    text-transform: none;
-    font-weight: 400;
-    letter-spacing: 0;
-    margin: 0;
-}
-
-.result {
-    margin-top: var(--space-lg);
-    padding: var(--space-md);
-    background-color: var(--bg-light-blue);
-    border-radius: var(--radius-md);
-    text-align: left;
-    border-left: 4px solid var(--sechenov-primary);
-    color: var(--text-main);
-}
-
-.result.hidden {
-    display: none;
-}
-
-.result h2 {
-    font-family: Georgia, serif;
-    color: var(--text-main);
-    margin-bottom: var(--space-sm);
-    border-bottom: 1px solid var(--border-light);
-    padding-bottom: var(--space-xs);
-}
-
-.result h3 {
-    font-size: 13px;
-    color: var(--text-main);
-    margin: var(--space-md) 0 var(--space-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-}
-
-.result ul {
-    margin-left: var(--space-md);
-    line-height: 1.9;
-    color: var(--text-main);
-}
-
-.result p {
-    margin-bottom: var(--space-xs);
-    color: var(--text-main);
-}
-
-.result strong {
-    color: var(--text-main);
-}
-
-.disclaimer {
-    margin-top: var(--space-lg);
-    font-size: 12px;
-    color: var(--text-main);
-    font-style: italic;
-    border-top: 1px solid var(--border-extra-light);
-    padding-top: var(--space-sm);
-    line-height: 1.5;
-}
-
-.error {
-    color: var(--text-main);
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-size: 1rem;
     font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
 }
 
-.success {
-    color: var(--text-main);
-    font-weight: 600;
+.btn-doctor {
+    background: #1f4e79;
+    color: #ffffff;
+}
+
+.btn-doctor:hover {
+    background: #163a5c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(31, 78, 121, 0.3);
+}
+
+.btn-patient {
+    background: #ffffff;
+    color: #1f4e79;
+    border: 2px solid #1f4e79;
+}
+
+.btn-patient:hover {
+    background: #eaf4ff;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #f0f2f5;
+    color: #2c3e50;
+}
+
+.btn-secondary:hover {
+    background: #e1e6ec;
+}
+
+.btn-primary {
+    background: #1f4e79;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #163a5c;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Большие кнопки для главной */
+.buttons .btn {
+    min-width: 220px;
+    padding: 18px 36px;
+    font-size: 1.1rem;
 }
 
 @media (max-width: 600px) {
     .buttons {
         flex-direction: column;
+        align-items: stretch;
     }
-    body {
-        padding: var(--space-sm);
-    }
-
-    .container {
-        padding: var(--space-lg) var(--space-md);
-        border-top: none;
-        border-left: 5px solid var(--sechenov-primary);
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    h1 {
-        font-size: 26px;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-xs);
-    }
-
-    .logo-img {
-        height: 32px;
-        max-width: 160px;
-    }
-
-    .logo-placeholder {
-        text-align: left;
-    }
-
-    .logo-text {
-        font-size: 11px;
+    .buttons .btn {
+        width: 100%;
     }
 }
+
+/* =====================================================================
+   DISCLAIMER
+   ===================================================================== */
+.disclaimer {
+    font-size: 0.9rem;
+    color: #7a8a99;
+    text-align: center;
+    margin-top: 32px;
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 3px solid #b6c9e0;
+}
+
+/* =====================================================================
+   ФОРМА (doctor.html)
+   ===================================================================== */
+.form-section {
+    border: 1px solid #e1e6ec;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    padding: 0 20px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.form-section[open] {
+    padding-bottom: 20px;
+}
+
+.form-section > summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    padding: 16px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #1f4e79;
+    user-select: none;
+}
+
+.form-section > summary::after {
+    content: "▸";
+    font-size: 1.3em;
+    transition: transform 0.2s;
+    color: #1f4e79;
+    margin-left: 12px;
+}
+
+.form-section[open] > summary::after {
+    transform: rotate(90deg);
+}
+
+.form-section > summary::-webkit-details-marker {
+    display: none;
+}
+
+.required-note {
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #d9534f;
+    margin-left: auto;
+}
+
+/* СЕТКА ПОЛЕЙ — адаптивная */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 480px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #3a4a5c;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    border: 1px solid #cfd8e3;
+    border-radius: 6px;
+    font-family: inherit;
+    transition: border 0.2s, box-shadow 0.2s;
+    background: #ffffff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #1f4e79;
+    box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.1);
+}
+
+.form-group input::placeholder {
+    color: #a8b4c0;
+}
+
+/* =====================================================================
+   КНОПКИ ДЕЙСТВИЙ ФОРМЫ
+   ===================================================================== */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    .form-actions {
+        flex-direction: column;
+    }
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+
+/* =====================================================================
+   PDF-ЗАГРУЗКА
+   ===================================================================== */
 .pdf-upload-block {
     background: #f7f9fc;
     border: 2px dashed #b6c9e0;
@@ -421,6 +369,7 @@ h3 {
 .pdf-file-name {
     color: #666;
     font-style: italic;
+    word-break: break-all;
 }
 
 .pdf-status {
@@ -442,16 +391,366 @@ h3 {
 }
 
 .field-autofilled {
+    background: #e8f5e9 !important;
+    border-color: #4caf50 !important;
+}
+
+/* =====================================================================
+   СТАТУСЫ (loading, error, result)
+   ===================================================================== */
+.hidden {
+    display: none !important;
+}
+
+.loading {
+    padding: 16px;
+    background: #eaf4ff;
+    border-radius: 8px;
+    color: #1f4e79;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 16px;
+}
+
+.error {
+    padding: 16px;
+    background: #fdecea;
+    border-left: 4px solid #d9534f;
+    border-radius: 8px;
+    color: #a94442;
+    margin-top: 16px;
+    word-break: break-word;
+}
+
+.result {
+    margin-top: 24px;
+    padding: clamp(16px, 3vw, 24px);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* =====================================================================
+   ДИАГНОЗ (результат врача)
+   ===================================================================== */
+.diagnosis-block {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.diagnosis-anemia {
+    background: #fdecea;
+    border-left: 5px solid #d9534f;
+}
+
+.diagnosis-normal {
     background: #e8f5e9;
-    border-color: #4caf50;
-    transition: background 0.3s;
+    border-left: 5px solid #4caf50;
 }
 
-.btn-primary {
-    background: #1f4e79;
-    color: white;
+.diagnosis-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
-.btn-primary:hover {
-    background: #163a5c;
+.diagnosis-class {
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+}
+
+.diagnosis-prob {
+    font-size: 0.95rem;
+    color: #5a6b7c;
+}
+
+/* Полнота данных */
+.completeness-block {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.completeness-good {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.completeness-warn {
+    background: #fff8e1;
+    color: #b87200;
+}
+
+.completeness-bad {
+    background: #fdecea;
+    color: #a94442;
+}
+
+/* Прогресс-бары классов */
+.prob-list {
+    margin: 16px 0;
+}
+
+.prob-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 1fr) 2fr auto;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    .prob-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+
+.prob-label {
+    font-size: 0.9rem;
+    color: #3a4a5c;
+    word-break: break-word;
+}
+
+.prob-bar {
+    background: #eaf1f8;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.prob-fill {
+    background: linear-gradient(90deg, #1f4e79, #4a7bb0);
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.prob-value {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: right;
+    color: #1f4e79;
+    min-width: 60px;
+}
+
+/* Таблица признаков */
+.features-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 12px 0;
+}
+
+.features-table th,
+.features-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e1e6ec;
+}
+
+.features-table th {
+    background: #f5f7fa;
+    color: #3a4a5c;
+    font-weight: 600;
+}
+
+/* Пропущенные признаки */
+.missing-block {
+    margin: 16px 0;
+    padding: 14px 16px;
+    background: #fff8e1;
+    border-left: 4px solid #ffb74d;
+    border-radius: 8px;
+}
+
+.missing-block h4 {
+    margin: 0 0 8px;
+    color: #b87200;
+    font-size: 0.95rem;
+}
+
+.missing-list {
+    font-size: 0.85rem;
+    color: #5a6b7c;
+    word-break: break-word;
+}
+
+.all-complete {
+    color: #2e7d32;
+    font-weight: 500;
+    padding: 12px;
+    background: #e8f5e9;
+    border-radius: 8px;
+    margin: 16px 0;
+}
+
+/* Рекомендации */
+.recommendation {
+    padding: 16px;
+    background: #f7f9fc;
+    border-left: 4px solid #1f4e79;
+    border-radius: 8px;
+    white-space: pre-line;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* =====================================================================
+   РЕЗУЛЬТАТ ПАЦИЕНТА
+   ===================================================================== */
+.patient-summary {
+    padding: 20px;
+    background: #f7f9fc;
+    border-radius: 10px;
+    margin: 16px 0;
+}
+
+.patient-status {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 600;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    text-align: center;
+}
+
+.patient-status.anemia {
+    background: #fdecea;
+    color: #b00020;
+}
+
+.patient-status.normal {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.patient-actions {
+    padding-left: 24px;
+    font-size: 1rem;
+    line-height: 1.9;
+}
+
+.patient-actions li {
+    margin-bottom: 8px;
+}
+
+.record-meta {
+    font-size: 0.9rem;
+    color: #7a8a99;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+/* =====================================================================
+   CODE ENTRY (patient.html)
+   ===================================================================== */
+.code-entry {
+    max-width: 480px;
+    margin: 40px auto;
+    padding: clamp(20px, 4vw, 32px);
+    background: #f7f9fc;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.code-entry label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #1f4e79;
+}
+
+.code-input {
+    width: 100%;
+    padding: 16px;
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
+    text-align: center;
+    letter-spacing: 0.3em;
+    font-family: "Courier New", monospace;
+    text-transform: uppercase;
+    border: 2px solid #b6c9e0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background: #ffffff;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: #1f4e79;
+    box-shadow: 0 0 0 4px rgba(31, 78, 121, 0.1);
+}
+
+.patient-result {
+    max-width: 700px;
+    margin: 32px auto;
+    padding: clamp(20px, 4vw, 32px);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* =====================================================================
+   SHARE BLOCK (врач делится кодом)
+   ===================================================================== */
+.share-block {
+    background: #fff8e1;
+    border: 2px solid #ffcc80;
+    border-radius: 12px;
+    padding: clamp(16px, 3vw, 24px);
+    margin-top: 24px;
+}
+
+.share-block h3 {
+    margin-top: 0;
+    color: #b87200;
+}
+
+.share-result {
+    margin-top: 16px;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px dashed #b87200;
+    text-align: center;
+}
+
+.patient-code {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: bold;
+    letter-spacing: 0.25em;
+    color: #1f4e79;
+    font-family: "Courier New", monospace;
+    margin: 12px 0;
+    padding: 16px;
+    background: #eaf4ff;
+    border-radius: 8px;
+    user-select: all;
+    word-break: break-all;
+}
+
+.patient-code-hint {
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* =====================================================================
+   ПЕЧАТЬ
+   ===================================================================== */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    .btn,
+    .form-actions,
+    .share-block,
+    .back-link {
+        display: none !important;
+    }
+    .result,
+    .patient-result {
+        box-shadow: none;
+        padding: 0;
+    }
 }

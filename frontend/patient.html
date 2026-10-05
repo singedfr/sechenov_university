@@ -3,73 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Проверка анализов | ИИ-скрининг</title>
+    <title>Мой результат | ИИ-скрининг</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container container-wide">
+    <div class="container">
         <header class="header">
-            <a href="index.html" class="back-link">← Назад</a>
+            <a href="index.html" class="back-link">← На главную</a>
             <img src="Sechenov Logo color horizontal.png" alt="Сеченовский Университет" class="logo-img">
         </header>
 
-        <h1>Проверка анализов</h1>
-        <p class="subtitle">Введите то, что у вас есть на руках</p>
+        <h1>Мой результат</h1>
+        <p class="subtitle">Введите код, который вам передал врач</p>
 
-        <form id="patientForm">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="sex">Пол *</label>
-                    <select id="sex" required>
-                        <option value="">— выберите —</option>
-                        <option value="F">Женский</option>
-                        <option value="M">Мужской</option>
-                    </select>
-                </div>
+        <div id="codeEntry" class="code-entry">
+            <label for="codeInput">Код доступа</label>
+            <input
+                type="text"
+                id="codeInput"
+                class="code-input"
+                placeholder="Например: K7M3PQ"
+                maxlength="10"
+                autocomplete="off"
+                autocapitalize="characters"
+                spellcheck="false"
+            >
+            <button type="button" id="lookupBtn" class="btn btn-patient">
+                🔍 Показать результат
+            </button>
+            <div id="codeError" class="error hidden"></div>
+        </div>
 
-                <div class="form-group">
-                    <label for="age">Возраст (лет) *</label>
-                    <input type="number" id="age" required min="1" max="120" placeholder="34">
-                </div>
-
-                <div class="form-group">
-                    <label for="hemoglobin">Гемоглобин (г/л) *</label>
-                    <input type="number" id="hemoglobin" required step="0.1" placeholder="105">
-                </div>
-
-                <div class="form-group">
-                    <label for="mcv">MCV (фл)</label>
-                    <input type="number" id="mcv" step="0.1" placeholder="72">
-                </div>
-
-                <div class="form-group">
-                    <label for="ferritin">Ферритин (нг/мл)</label>
-                    <input type="number" id="ferritin" step="0.1" placeholder="8">
-                </div>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="fatigue">
-                <label for="fatigue">Часто чувствую усталость</label>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="nails">
-                <label for="nails">Ломкие ногти или выпадение волос</label>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="vegetarian">
-                <label for="vegetarian">Я вегетарианец / веган</label>
-            </div>
-
-            <button type="submit" class="btn btn-patient">Проверить</button>
-        </form>
-
-        <div id="result" class="result hidden"></div>
+        <div id="patientResult" class="patient-result hidden"></div>
 
         <p class="disclaimer">
-            Сервис не заменяет консультацию врача. При любых сомнениях обратитесь к специалисту.
+            Сервис не заменяет консультацию врача. Результаты носят информационный характер.
         </p>
     </div>
 
