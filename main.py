@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from schemas import PatientData, PredictionResponse, ClassProbability, FeatureImpact
 from recommendations import generate_recommendations
 from ml_loader import loader
+from storage import save_patient, get_patient, count_patients
 
 
 app = FastAPI(
@@ -133,3 +134,47 @@ async def parse_pdf_endpoint(file: UploadFile = File(...)):
             status_code=500,
             detail=f"Ошибка обработки PDF: {str(e)}",
         )
+
+
+from pydantic import BaseModel as _BM
+from typing import Optional as _Opt
+
+
+class SaveRequest(_BM):
+    patient_id: str
+    result: dict
+
+
+class PatientLookupResponse(_BM):
+    patient_id: str
+    created_at: str
+    result: dict
+
+
+@app.post("/patients")
+def create_patient(payload: SaveRequest):
+    try:
+        short_id = save_patient(payload.result)
+        return {
+            "ok": True,
+            "patient_id": short_id,
+            "message": "Результат сохранён. Передайте этот ID пациенту.",
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Не удалось сохранить: {str(e)}")
+
+
+@app.get("/patients/{patient_id}", response_model=PatientLookupResponse)
+def read_patient(patient_id: str):
+    record = get_patient(patient_id)
+    if record is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Результат с таким ID не найден. Проверьте код.",
+        )
+    return PatientLookupResponse(**record)
+
+
+@app.get("/admin/stats")
+def admin_stats():
+    return {"patients_count": count_patients()}
